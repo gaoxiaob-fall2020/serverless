@@ -33,17 +33,16 @@ def _send_email(fro, to, subject, content, html=False):
 
 
 def lambda_handler(event, context):
+    print(event)
     message_id = event["Records"][0]["Sns"]["MessageId"]
     message = json.loads(event["Records"][0]["Sns"]["Message"])
 
     dynamodb = boto3.resource("dynamodb")
     table = dynamodb.Table(DYNANODB_TABLE)
     resp = table.query(KeyConditionExpression=Key("id").eq(message_id))
-    print(resp, "----", DYNANODB_TABLE)
     if resp["Count"] != 0:
         return {"statusCode": 400, "body": json.dumps("Message has already been sent.")}
 
-    print("<-------")
     if message["on"] == "question_answered":
         subj = "A New Answer Posted to Your Question"
         cont = f"""
