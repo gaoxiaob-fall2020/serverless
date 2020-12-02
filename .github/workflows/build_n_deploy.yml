@@ -6,9 +6,9 @@ env:
   # LAMBDA_FUNCTION_NAME: serverless
   # AWS_REGION: us-east-1
 
-on: [push]
-  # push:
-  #  branches: [ master ]
+on:
+  push:
+    branches: [master]
 
 jobs:
   ci_cd:
@@ -42,5 +42,3 @@ jobs:
           --function-name ${{ secrets.LAMBDA_FUNCTION_NAME }} \
           --s3-bucket ${{ secrets.S3_CODEDEPLOY_BUCKET }} \
           --s3-key ${{ env.ARTIFACT_NAME }}
-
-
